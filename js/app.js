@@ -9,53 +9,57 @@ GAME RULES:
 
 */
 
-let scores , roundScore , activePlayer , dice , diceImage
+let scores, roundScore, activePlayer, dice, diceImage, gamePlaying
 
 init();
 
 function init() {
-    scores = [0,0];
+    scores = [0, 0];
     activePlayer = 0;
     roundScore = 0;
+    gamePlaying = true;
     resetAll();
 }
 
-
-
 function rollDice() {
-    createDice();
-    if(dice !== 1) {
-        addRoundScore();
+    if (gamePlaying) {
+        createDice();
+
+        if (dice !== 1) {
+            addRoundScore();
+        } else {
+            diceRolledOne();
+            changeActivePlayer();
+            changeActivePanel();
+            removeDice();
+        }
     }
-    else {
-        diceRolledOne();
+}
+
+function hold() {
+    if(gamePlaying){
+        gameWon();
+        saveCurrentScore();
         changeActivePlayer();
         changeActivePanel();
-        removeDice();
     }
-}
-function hold(){   
-   gameWon();
-   saveCurrentScore();
-   changeActivePlayer();
-   changeActivePanel();    
+  
 }
 
+document.querySelector(".btn-roll").addEventListener('click', rollDice)
+document.querySelector(".btn-hold").addEventListener('click', hold)
+document.querySelector(".btn-new").addEventListener('click', init)
 
-document.querySelector(".btn-roll").addEventListener('click' , rollDice)
-document.querySelector(".btn-hold").addEventListener('click' , hold)
-document.querySelector(".btn-new").addEventListener('click' , init)
 
-
-function createDice(){
+function createDice() {
     dice = Math.floor(Math.random() * 6) + 1;
     diceImage = document.querySelector(".dice")
     diceImage.style.display = 'block';
     diceImage.src = 'images/dice-' + dice + ".png"
 }
 
-function addRoundScore(){
-    roundScore += dice; 
+function addRoundScore() {
+    roundScore += dice;
     document.querySelector('#current-' + activePlayer).innerHTML = roundScore;
 }
 
@@ -64,16 +68,16 @@ function diceRolledOne() {
     document.getElementById('current-' + activePlayer).innerHTML = roundScore;
 }
 
-function changeActivePlayer(){
+function changeActivePlayer() {
     activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
 }
 
-function changeActivePanel(){
+function changeActivePanel() {
     document.querySelector(".player-0-panel").classList.toggle('active')
     document.querySelector(".player-1-panel").classList.toggle('active')
 }
 
-function removeDice(){
+function removeDice() {
     diceImage = document.querySelector(".dice")
     diceImage.style.display = 'none';
 
@@ -88,10 +92,11 @@ function saveCurrentScore() {
 }
 
 function gameWon() {
-    if(scores[activePlayer] >= 10) {
-        document.querySelector('#name-' + activePlayer).textContent =  ' Winner' ;
+    if (scores[activePlayer] >= 10) {
+        document.querySelector('#name-' + activePlayer).textContent = ' Winner';
         changeToWinnerPanel()
-        }  
+        gamePlaying = false;
+    }
 }
 
 function changeToWinnerPanel() {
@@ -112,7 +117,4 @@ function resetAll() {
     document.querySelector('.player-0-panel').classList.remove('winner')
     document.querySelector('.player-1-panel').classList.remove('winner')
     document.querySelector('.player-0-panel').classList.add('active')
-
-    
-
 }
