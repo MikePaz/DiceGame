@@ -6,10 +6,11 @@ GAME RULES:
 - BUT, if the player rolls a 1, all his ROUND score gets lost. After that, it's the next player's turn
 - The player can choose to 'Hold', which means that his ROUND score gets added to his GLBAL score. After that, it's the next player's turn
 - The first player to reach 100 points on GLOBAL score wins the game
+- If a player rolls 6 twice he loses all of his GLOBAL points
 
 */
 
-let scores, roundScore, activePlayer, dice, diceImage, gamePlaying
+let scores, roundScore, activePlayer, dice, diceImage, gamePlaying, previousDice
 
 init();
 
@@ -25,25 +26,25 @@ function rollDice() {
     if (gamePlaying) {
         createDice();
 
-        if (dice !== 1) {
+        if (previousDice == 6 && dice == 6) {
+            rollTwoSixes();
+        } else if (dice !== 1) {
             addRoundScore();
         } else {
-            diceRolledOne();
-            changeActivePlayer();
-            changeActivePanel();
-            removeDice();
+            GameStateIfDiceRollsOne();
         }
+        previousDice = dice;
     }
 }
 
 function hold() {
-    if(gamePlaying){
+    if (gamePlaying) {
         gameWon();
         saveCurrentScore();
         changeActivePlayer();
         changeActivePanel();
     }
-  
+
 }
 
 document.querySelector(".btn-roll").addEventListener('click', rollDice)
@@ -117,4 +118,18 @@ function resetAll() {
     document.querySelector('.player-0-panel').classList.remove('winner')
     document.querySelector('.player-1-panel').classList.remove('winner')
     document.querySelector('.player-0-panel').classList.add('active')
+}
+
+function rollTwoSixes() {
+    scores[activePlayer] = 0;
+    document.querySelector('#score-' + activePlayer).textContent = '0';
+    changeActivePlayer();
+    changeActivePanel();
+}
+
+function GameStateIfDiceRollsOne(){
+    diceRolledOne();
+    changeActivePlayer();
+    changeActivePanel();
+    removeDice();
 }
