@@ -28,13 +28,14 @@ function rollDice() {
         removeDice();
     }
 }
-
-
-function hold(){
-    scores[activePlayer] += roundScore
-
-    document.getElementById('score-' + activePlayer).innerHTML = scores[activePlayer]
+function hold(){   
+   gameWon();
+   saveCurrentScore();
+   changeActivePlayer();
+   changeActivePanel();    
 }
+
+
 
 document.querySelector(".btn-roll").addEventListener('click' , rollDice)
 document.querySelector(".btn-hold").addEventListener('click' , hold)
@@ -72,3 +73,22 @@ function removeDice(){
 
 }
 
+function saveCurrentScore() {
+    scores[activePlayer] += roundScore
+    document.getElementById('score-' + activePlayer).innerHTML = scores[activePlayer]
+    document.querySelector('#current-' + activePlayer).innerHTML = 0;
+    removeDice();
+    roundScore = 0;
+}
+
+function gameWon() {
+    if(scores[activePlayer] >= 10) {
+        document.querySelector('#name-' + activePlayer).textContent =  ' Winner' ;
+        changeToWinnerPanel()
+        }  
+}
+
+function changeToWinnerPanel() {
+    document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner')
+    document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active')
+}
