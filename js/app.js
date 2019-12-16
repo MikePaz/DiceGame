@@ -92,7 +92,16 @@ function saveCurrentScore() {
 }
 
 function gameWon() {
-    if (scores[activePlayer] >= 10) {
+
+    let input = document.querySelector('.final-score').value;
+    
+    if(input) {
+        let winningScore = input;
+    } else {
+        winningScore = 10
+    }
+
+    if (scores[activePlayer] >= input) {
         document.querySelector('#name-' + activePlayer).textContent = ' Winner';
         changeToWinnerPanel()
         gamePlaying = false;
