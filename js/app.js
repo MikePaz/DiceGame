@@ -18,18 +18,26 @@ document.querySelector(".dice").style.display = 'none';
 
 function rollDice() {
     createDice();
-
     if(dice !== 1) {
-        AddScore();
+        addRoundScore();
     }
     else {
-        changeActivePlayer();
         diceRolledOne();
+        changeActivePlayer();
+        changeActivePanel();
         removeDice();
     }
 }
 
+
+function hold(){
+    scores[activePlayer] += roundScore
+
+    document.getElementById('score-' + activePlayer).innerHTML = scores[activePlayer]
+}
+
 document.querySelector(".btn-roll").addEventListener('click' , rollDice)
+document.querySelector(".btn-hold").addEventListener('click' , hold)
 
 
 function createDice(){
@@ -39,17 +47,21 @@ function createDice(){
     diceImage.src = 'images/dice-' + dice + ".png"
 }
 
-function AddScore(){
+function addRoundScore(){
     roundScore += dice; 
     document.querySelector('#current-' + activePlayer).innerHTML = roundScore;
 }
 
 function diceRolledOne() {
-    activeplayer === 0 ? activeplayer = 1 : activePlayer = 0;
     roundScore = 0;
+    document.getElementById('current-' + activePlayer).innerHTML = roundScore;
 }
 
 function changeActivePlayer(){
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+}
+
+function changeActivePanel(){
     document.querySelector(".player-0-panel").classList.toggle('active')
     document.querySelector(".player-1-panel").classList.toggle('active')
 }
