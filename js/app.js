@@ -9,8 +9,19 @@ GAME RULES:
 
 */
 
-let scores , roundScore , activePlayer
+let scores , roundScore , activePlayer , dice , diceImage
 
 scores = [0,0]
 roundScore = 0;
 activePlayer= 0;
+document.querySelector(".dice").style.display = 'none';
+
+function rollDice() {
+    dice = Math.floor(Math.random() * 6) + 1;
+
+    diceImage = document.querySelector(".dice")
+    diceImage.style.display = 'block';
+    diceImage.src = 'images/dice-' + dice + ".png"
+}
+
+document.querySelector(".btn-roll").addEventListener('click' , rollDice)
