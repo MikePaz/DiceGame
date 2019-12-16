@@ -19,6 +19,7 @@ function init() {
     activePlayer = 0;
     roundScore = 0;
     gamePlaying = true;
+    resetAll();
 }
 
 function rollDice() {
@@ -48,7 +49,7 @@ function hold() {
 
 document.querySelector(".btn-roll").addEventListener('click', rollDice)
 document.querySelector(".btn-hold").addEventListener('click', hold)
-document.querySelector(".btn-new").addEventListener('click', resetAll)
+document.querySelector(".btn-new").addEventListener('click', init)
 
 
 function createDice() {
@@ -96,12 +97,12 @@ function gameWon() {
     let input = document.querySelector('.final-score').value;
     
     if(input) {
-        let winningScore = input;
+       winningScore = input;
     } else {
         winningScore = 10
     }
 
-    if (scores[activePlayer] >= input) {
+    if (scores[activePlayer] >= winningScore) {
         document.querySelector('#name-' + activePlayer).textContent = ' Winner';
         changeToWinnerPanel()
         gamePlaying = false;
