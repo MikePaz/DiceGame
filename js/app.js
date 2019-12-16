@@ -19,7 +19,6 @@ function init() {
     activePlayer = 0;
     roundScore = 0;
     gamePlaying = true;
-    resetAll();
 }
 
 function rollDice() {
@@ -49,7 +48,7 @@ function hold() {
 
 document.querySelector(".btn-roll").addEventListener('click', rollDice)
 document.querySelector(".btn-hold").addEventListener('click', hold)
-document.querySelector(".btn-new").addEventListener('click', init)
+document.querySelector(".btn-new").addEventListener('click', resetAll)
 
 
 function createDice() {
