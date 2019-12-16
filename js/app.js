@@ -17,11 +17,46 @@ activePlayer= 0;
 document.querySelector(".dice").style.display = 'none';
 
 function rollDice() {
-    dice = Math.floor(Math.random() * 6) + 1;
+    createDice();
 
+    if(dice !== 1) {
+        AddScore();
+    }
+    else {
+        changeActivePlayer();
+        diceRolledOne();
+        removeDice();
+    }
+}
+
+document.querySelector(".btn-roll").addEventListener('click' , rollDice)
+
+
+function createDice(){
+    dice = Math.floor(Math.random() * 6) + 1;
     diceImage = document.querySelector(".dice")
     diceImage.style.display = 'block';
     diceImage.src = 'images/dice-' + dice + ".png"
 }
 
-document.querySelector(".btn-roll").addEventListener('click' , rollDice)
+function AddScore(){
+    roundScore += dice; 
+    document.querySelector('#current-' + activePlayer).innerHTML = roundScore;
+}
+
+function diceRolledOne() {
+    activeplayer === 0 ? activeplayer = 1 : activePlayer = 0;
+    roundScore = 0;
+}
+
+function changeActivePlayer(){
+    document.querySelector(".player-0-panel").classList.toggle('active')
+    document.querySelector(".player-1-panel").classList.toggle('active')
+}
+
+function removeDice(){
+    diceImage = document.querySelector(".dice")
+    diceImage.style.display = 'none';
+
+}
+
